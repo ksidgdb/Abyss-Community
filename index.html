@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="theme-color" content="#05030d">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>A • Discord</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="orb" id="o1"></div><div class="orb" id="o2"></div>
+<canvas id="st"></canvas><div id="cur"></div>
+
+<header id="top">
+  <a class="lg" href="#home">A</a>
+  <nav id="nav"><i id="ind"></i></nav>
+  <a class="btn sm" id="join" href="#" target="_blank" rel="noopener">เข้าดิส</a>
+</header>
+<aside id="dots"></aside>
+<nav id="bnav" aria-label="เมนู"></nav>
+
+<section id="home" data-h="268">
+  <div class="in rv">
+    <div class="txt">
+      <div class="k">Discord Community</div>
+      <h1><span data-split>ยินดีต้อนรับสู่</span><br><span class="hs" data-split>Abyss Community</span></h1>
+      <p class="sub">ที่นี่คุณ <span id="tw" class="hg"></span><span class="caret">|</span></p>
+      <a class="btn" id="join2" href="#" target="_blank" rel="noopener">เข้าร่วมเซิฟเวอของเรา</a>
+      <a class="btn g" href="#ticket">แจ้งปัญหา</a>
+    </div>
+    <img class="heroimg" alt="" src="hero.webp">
+  </div>
+  <div class="marq"><div id="marq"></div></div>
+</section>
+
+<section id="news" data-h="212" data-n="01">
+  <div class="in rv"><div class="k">01 — Updates</div><h2 data-split>ข่าวสาร</h2><p class="sub">ประกาศและอัปเดตล่าสุดของเซิร์ฟเวอร์</p><div class="grid" id="newslist"></div></div>
+</section>
+
+<section id="partner" data-h="318" data-n="02">
+  <div class="in rv"><div class="k">02 — Partner</div><h2 data-split>Partner</h2><p class="sub">เซิร์ฟเวอร์ที่ร่วมมือกับเรา</p>
+    <div class="grid" id="plist"></div>
+    <p style="margin-top:28px"><a class="btn" href="#ticket" data-pick="ขอเป็น Partner">ขอเป็น Partner</a></p>
+  </div>
+</section>
+
+<section id="team" data-h="162" data-n="03">
+  <div class="in rv"><div class="k">03 — Staff</div><h2 data-split>ทีมงาน</h2><p class="sub">ทีมงานที่ดูแลเซิร์ฟเวอร์</p><div id="teamlist"></div></div>
+</section>
+
+<section id="rules" data-h="38" data-n="04">
+  <div class="in rv"><div class="k">04 — Rules</div><h2 data-split>กฎเซิร์ฟเวอร์</h2><p class="sub">อ่านก่อนเข้าร่วม หากพบปัญหาหรือพบเห็นการกระทำที่ไม่เหมาะสม สามารถแจ้งทีมงานผ่านช่องทางที่กำหนดได้ตลอดเวลา</p><div class="grid wide" id="ruleslist"></div></div>
+</section>
+
+<section id="ticket" data-h="196" data-n="05">
+  <div class="in rv"><div class="k">05 — Support</div><h2 data-split>Ticket</h2>
+    <p class="sub">แจ้งปัญหา ขอความช่วยเหลือ หรือขอเป็น Partner ผ่านฟอร์มเดียว ทีมงานจะติดต่อกลับทางดิส</p>
+    <form id="tf">
+      <div class="row">
+        <label>ชื่อ Discord<input name="user" required></label>
+        <label>หัวข้อ<select name="topic" id="topic"><option>แจ้งปัญหา</option><option>ขอเป็น Partner</option><option>อื่นๆ</option></select></label>
+      </div>
+      <div id="pf" hidden>
+        <label>ชื่อเซิร์ฟเวอร์<input name="server"></label>
+        <label>ลิ้งเชิญดิส<input name="invite" type="url" placeholder="https://discord.gg/..."></label>
+      </div>
+      <label>รายละเอียด<textarea name="desc" required></textarea></label>
+      <button class="btn" type="submit">ส่ง</button>
+      <div class="msg"></div>
+    </form>
+  </div>
+</section>
+
+<footer>© Abyss Community</footer>
+<script src="data.js"></script>
+<script src="script.min.js"></script>
+<script src="anti-save.js"></script>
+</body>
+</html>

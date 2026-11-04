@@ -1,0 +1,243 @@
+/* ====== ตัวแปร & สีที่เปลี่ยนตามส่วน ====== */
+@property --h{syntax:'<number>';inherits:true;initial-value:268}
+:root{color-scheme:dark;--h:268;
+ --a:hsl(var(--h) 95% 68%);--a2:hsl(calc(var(--h) + 45) 95% 64%);
+ --glow:hsl(var(--h) 100% 60% / .45);--tx:#f4efff;--mu:hsl(var(--h) 22% 72%);
+ --card:hsl(var(--h) 40% 9% / .72);--line:hsl(var(--h) 60% 75% / .16);
+ transition:--h .9s ease;box-sizing:border-box}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:auto;scrollbar-width:none;-ms-overflow-style:none}
+html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;width:0;height:0}
+body{margin:0;color:var(--tx);font-family:"Segoe UI",system-ui,"Noto Sans Thai",Tahoma,sans-serif;line-height:1.65;
+ background:hsl(var(--h) 70% 3%);
+ background-image:radial-gradient(ellipse 70% 50% at 85% 0%,hsl(var(--h) 90% 45% / .28),transparent),radial-gradient(ellipse 60% 50% at 0% 100%,hsl(calc(var(--h) + 50) 90% 45% / .2),transparent);
+ background-attachment:fixed}
+a{color:inherit}
+
+/* ====== พื้นหลัง: ดาว + แสงตามเมาส์ ====== */
+#st{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+#cur{position:fixed;left:-220px;top:-220px;width:440px;height:440px;border-radius:50%;
+ background:radial-gradient(circle,var(--glow),transparent 65%);pointer-events:none;z-index:0;opacity:.5;will-change:transform;transform:translate3d(-999px,-999px,0)}
+@media(pointer:coarse){#cur{display:none}}
+section,footer{position:relative;z-index:1}
+
+.orb{position:fixed;z-index:0;pointer-events:none;width:70vmax;height:70vmax;border-radius:50%;will-change:transform;
+ background:radial-gradient(circle,hsl(var(--h) 90% 55% / .2),transparent 62%)}
+#o1{left:-25vmax;top:-20vmax;animation:dr1 22s ease-in-out infinite alternate}
+#o2{right:-28vmax;bottom:-28vmax;background:radial-gradient(circle,hsl(calc(var(--h) + 55) 90% 55% / .17),transparent 62%);animation:dr2 28s ease-in-out infinite alternate}
+@keyframes dr1{to{transform:translate3d(18vmax,12vmax,0) scale(1.15)}}
+@keyframes dr2{to{transform:translate3d(-16vmax,-14vmax,0) scale(1.2)}}
+
+/* ====== เมนูลอยแบบแคปซูล ====== */
+header{position:fixed;top:calc(14px + env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);z-index:20;
+ width:min(940px,calc(100% - 24px));display:flex;align-items:center;gap:14px;padding:8px 10px 8px 22px;border-radius:99px;
+ background:hsl(var(--h) 60% 6% / .6);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);border:1px solid var(--line);
+ box-shadow:0 10px 50px hsl(var(--h) 90% 30% / .25)}
+header::after{content:"";position:absolute;left:26px;bottom:-1px;height:2px;border-radius:2px;width:calc((100% - 52px)*var(--p,0));
+ background:linear-gradient(90deg,var(--a),var(--a2));box-shadow:0 0 12px var(--glow)}
+.lg{font-weight:900;font-size:28px;line-height:1;text-decoration:none;
+ background:linear-gradient(150deg,var(--a),var(--a2));-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 10px var(--glow))}
+nav{position:relative;display:flex;gap:2px;margin:0 auto;scrollbar-width:none;padding:4px}
+nav::-webkit-scrollbar{display:none}
+nav a{position:relative;z-index:1;padding:8px 16px;border-radius:99px;color:var(--mu);text-decoration:none;font-size:14px;white-space:nowrap;transition:color .3s}
+nav a:hover,nav a.on{color:#fff}
+#ind{position:absolute;z-index:0;top:4px;bottom:4px;left:0;width:0;border-radius:99px;
+ background:linear-gradient(135deg,hsl(var(--h) 90% 55% / .4),hsl(calc(var(--h) + 45) 90% 55% / .28));
+ border:1px solid var(--line);box-shadow:0 0 18px var(--glow);
+ transition:left .5s cubic-bezier(.3,1.3,.5,1),width .5s cubic-bezier(.3,1.3,.5,1)}
+
+#dots{position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:15;display:flex;flex-direction:column;gap:14px}
+#dots a{width:9px;height:9px;border-radius:50%;border:1px solid var(--mu);transition:.35s;display:block}
+#dots a.on{background:var(--a);border-color:var(--a);box-shadow:0 0 14px var(--glow);transform:scale(1.5)}
+
+/* ====== ส่วนต่างๆ ====== */
+section{min-height:100vh;padding:140px 6vw 80px;display:flex;align-items:center;overflow-x:clip}
+.in{width:100%;max-width:1000px;margin:auto;position:relative}
+.rv{opacity:0;transform:translateY(30px);transition:opacity .8s,transform .8s}
+.vis .rv{opacity:1;transform:none}
+section[data-n] .in::before{content:attr(data-n);position:absolute;right:0;top:-50px;font-size:clamp(110px,22vw,240px);font-weight:900;line-height:1;
+ color:transparent;-webkit-text-stroke:1px var(--line);pointer-events:none;z-index:-1}
+.k{font-size:12px;letter-spacing:.3em;color:var(--a);text-transform:uppercase;margin-bottom:10px}
+h1,h2{margin:0 0 10px;line-height:1.15;text-shadow:0 0 22px hsl(var(--h) 100% 65% / .5),0 0 70px hsl(var(--h) 100% 60% / .32)}
+h2{font-size:clamp(36px,6vw,58px)}
+h1{font-size:clamp(34px,5.2vw,62px)}
+h1,h2{padding:.05em 0 .15em}
+[data-split]{display:inline-block;white-space:nowrap}
+.sub{color:var(--mu);max-width:560px;margin:0 0 34px;font-size:17px}
+
+/* ตัวอักษรเด้งเข้าทีละตัว */
+.ch{display:inline-block;transform:translateY(55%);opacity:0;white-space:pre;
+ transition:transform .75s cubic-bezier(.2,.9,.2,1),opacity .75s;transition-delay:calc(var(--c)*30ms + .1s)}
+.vis .ch{transform:none;opacity:1}
+.hs .ch{color:var(--a)}
+.hg{background:linear-gradient(120deg,var(--a),var(--a2));-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* ====== หน้าแรก ====== */
+#home{flex-direction:column;justify-content:center}
+#home .in{display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center}
+.heroimg{width:100%;aspect-ratio:1;object-fit:cover;will-change:transform;
+ filter:hue-rotate(calc((var(--h) - 268) * 1deg)) drop-shadow(0 0 40px var(--glow));
+ animation:fl 6s ease-in-out infinite}
+.caret{color:var(--a);animation:bl 1s steps(2) infinite;margin-left:2px}
+.marq{width:100%;overflow:hidden;margin-top:50px;border-block:1px solid var(--line);padding:10px 0;
+ -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.marq div{display:flex;gap:44px;width:max-content;animation:mq 26s linear infinite;color:var(--mu);font-size:13px;letter-spacing:.35em;text-transform:uppercase;white-space:nowrap}
+.marq b{color:var(--a)}
+
+/* ====== ปุ่ม ====== */
+.btn{display:inline-block;padding:13px 28px;border:0;border-radius:14px;font:600 15px inherit;font-family:inherit;color:#fff;text-decoration:none;cursor:pointer;
+ background:linear-gradient(135deg,var(--a),var(--a2));box-shadow:0 0 28px var(--glow);
+ transition:box-shadow .25s,transform .2s;transform:translate(var(--bx,0px),var(--by,0px))}
+.btn:hover{box-shadow:0 0 46px var(--glow)}
+.btn.g{background:transparent;border:1px solid var(--line);box-shadow:none;margin-left:8px}
+.btn.sm{padding:9px 20px;border-radius:99px;font-size:14px;flex:none}
+
+/* ====== การ์ด ====== */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:16px}
+.grid.wide{grid-template-columns:repeat(auto-fit,minmax(min(290px,100%),1fr))}
+.card{position:relative;overflow:hidden;border-radius:22px;padding:22px;backdrop-filter:blur(12px);border:1px solid transparent;
+ background:linear-gradient(var(--card),var(--card)) padding-box,linear-gradient(135deg,hsl(var(--h) 90% 60% / .55),transparent 45%,hsl(calc(var(--h) + 45) 90% 60% / .35)) border-box;
+ transition:box-shadow .3s,transform .18s;
+ transform:perspective(800px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateY(var(--ty,0px))}
+.card:hover{--ty:-4px;box-shadow:0 10px 50px var(--glow)}
+.card::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .3s;
+ background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),hsl(var(--h) 100% 80% / .15),transparent 60%)}
+.card:hover::after{opacity:1}
+.card h3{margin:0 0 6px;font-size:18px}.card p{margin:0;color:var(--mu);font-size:14px}
+.card img.pic{width:calc(100% + 44px);margin:-22px -22px 16px;height:150px;object-fit:cover;display:block}
+.card img.pic.sq{height:auto;aspect-ratio:1/1;object-fit:contain;background:hsl(var(--h) 60% 4% / .6)}
+#plist{grid-template-columns:repeat(auto-fill,minmax(220px,260px))}
+.empty{display:grid;place-items:center;min-height:110px;border-style:dashed;color:var(--mu);text-align:center}
+.vis .grid>*{animation:up .7s backwards;animation-delay:calc(var(--i,0)*80ms + .2s)}
+time{font-size:12px;color:var(--a)}
+.rule{display:flex;gap:18px;align-items:flex-start}
+.rule .rt{display:block;font-size:14px;letter-spacing:.04em;color:var(--a);margin-bottom:6px;text-shadow:0 0 12px var(--glow)}
+.rule p{margin:0;color:var(--mu);font-size:14px;line-height:1.6}
+.n{font-size:26px;line-height:1;color:var(--a);font-weight:700;text-shadow:0 0 14px var(--glow)}
+.grp{display:flex;align-items:center;gap:12px;margin:26px 0 12px;font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:var(--a)}
+.grp::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
+.mem{display:flex;gap:14px;align-items:center;text-decoration:none}
+a.mem{cursor:pointer}
+.av-wrap{position:relative;flex:none;display:block;width:54px;height:54px}
+.av{width:54px;height:54px;border-radius:50%;flex:none;display:grid;place-items:center;font-weight:800;font-size:20px;object-fit:cover;
+ background:linear-gradient(135deg,var(--a),var(--a2));box-shadow:0 0 20px var(--glow)}
+.av-wrap .av{position:absolute;inset:0}
+.dot{position:absolute;right:-1px;bottom:-1px;width:14px;height:14px;border-radius:50%;border:3px solid var(--card);
+ background:#747f8d;transition:background .3s}
+.dot.online{background:#23a55a}
+.dot.idle{background:#f0b232}
+.dot.dnd{background:#f23f43}
+.dot.offline,.dot.off{background:#747f8d}
+.tag{display:inline-block;font-size:11px;padding:1px 10px;border-radius:99px;border:1px solid var(--line);color:var(--mu)}
+
+/* ====== ฟอร์ม ====== */
+form{display:grid;gap:12px;padding:24px;border-radius:24px;backdrop-filter:blur(12px);border:1px solid var(--line);background:var(--card)}
+#pf{display:grid;gap:12px;animation:up .5s}
+label{display:grid;gap:5px;font-size:13px;color:var(--mu)}
+input,textarea,select{width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:hsl(var(--h) 60% 4% / .6);color:var(--tx);font:inherit;color-scheme:dark}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--a);box-shadow:0 0 14px var(--glow)}
+select{appearance:none;-webkit-appearance:none;padding-right:40px;cursor:pointer;
+ background-image:linear-gradient(135deg,transparent 50%,var(--a) 50%),linear-gradient(45deg,var(--a) 50%,transparent 50%);
+ background-position:calc(100% - 22px) 55%,calc(100% - 16px) 55%;background-size:6px 6px,6px 6px;background-repeat:no-repeat}
+select:focus{background-image:linear-gradient(135deg,transparent 50%,var(--a2) 50%),linear-gradient(45deg,var(--a2) 50%,transparent 50%)}
+select option{background:hsl(var(--h) 55% 7%);color:var(--tx);padding:10px}
+
+/* ====== ดรอปดาวน์แบบกำหนดเอง (แทน <select> ดีไซน์เบราว์เซอร์) ====== */
+.sel{position:relative}
+.sel-btn{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;
+ border-radius:12px;border:1px solid var(--line);background:hsl(var(--h) 60% 4% / .6);color:var(--tx);font:inherit;
+ cursor:pointer;text-align:left;transition:border-color .2s,box-shadow .2s}
+.sel-btn:hover{border-color:hsl(var(--h) 60% 75% / .35)}
+.sel.open .sel-btn{outline:none;border-color:var(--a);box-shadow:0 0 14px var(--glow)}
+.sel-arrow{width:8px;height:8px;flex:none;border-right:2px solid var(--a);border-bottom:2px solid var(--a);
+ transform:rotate(45deg);transition:transform .25s}
+.sel.open .sel-arrow{transform:rotate(-135deg)}
+.sel-list{position:absolute;z-index:30;left:0;right:0;top:calc(100% + 8px);margin:0;padding:6px;list-style:none;
+ border-radius:14px;border:1px solid var(--line);background:hsl(var(--h) 55% 6% / .96);
+ -webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);box-shadow:0 16px 50px hsl(var(--h) 90% 20% / .45);
+ max-height:240px;overflow:auto;animation:selOpen .18s ease}
+.sel-list li{padding:10px 12px;border-radius:9px;font-size:14px;color:var(--mu);cursor:pointer;transition:background .15s,color .15s}
+.sel-list li:hover{background:hsl(var(--h) 60% 50% / .16);color:#fff}
+.sel-list li[aria-selected="true"]{color:#fff;
+ background:linear-gradient(135deg,hsl(var(--h) 90% 55% / .35),hsl(calc(var(--h) + 45) 90% 55% / .22))}
+@keyframes selOpen{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+textarea{min-height:110px;resize:vertical}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.msg{display:none;padding:10px 12px;border-radius:10px;font-size:14px;background:hsl(var(--h) 50% 10%);border:1px solid var(--line);white-space:pre-wrap;word-break:break-word}
+footer{text-align:center;color:var(--mu);font-size:13px;padding:30px 6vw calc(40px + env(safe-area-inset-bottom,0px))}
+
+/* ====== อนิเมชัน ====== */
+@keyframes bl{50%{opacity:0}}
+@keyframes fl{50%{transform:translate3d(0,-16px,0) scale(1.02)}}
+@keyframes up{from{opacity:0;transform:translateY(30px) scale(.96)}}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+@media(max-width:760px){
+ #home .in{grid-template-columns:1fr}.heroimg{max-width:300px;margin:auto;order:-1}
+ .row{grid-template-columns:1fr}#dots{display:none}.btn.sm{display:none}
+ header{padding:8px 10px 8px 18px}nav{margin:0 0 0 auto;overflow-x:auto}nav a{padding:8px 12px}#ind{box-shadow:none}
+}
+@media(prefers-reduced-motion:reduce){.heroimg,.marq div,.caret,.orb{animation:none}}
+
+/* ====== มือถือ ====== */
+#bnav{display:none}
+html.kb #bnav{display:none!important}
+@media(pointer:coarse){
+ body{background-attachment:scroll;background-image:none;-webkit-tap-highlight-color:transparent}
+ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:radial-gradient(ellipse 70% 50% at 85% 0%,hsl(var(--h) 90% 45% / .28),transparent),radial-gradient(ellipse 60% 50% at 0% 100%,hsl(calc(var(--h) + 50) 90% 45% / .2),transparent)}
+}
+@media(max-width:760px){
+ :root{--card:hsl(var(--h) 40% 9% / .9)}
+ .orb{animation:none}
+ .card,form{-webkit-backdrop-filter:none;backdrop-filter:none}
+
+ /* แถบบน: โลโก้ + ปุ่มเข้าดิส */
+ header{justify-content:space-between;padding:8px 8px 8px 20px;gap:10px}
+ #nav{display:none}
+ header .btn.sm{display:inline-block}
+
+ /* เมนูล่างแบบแคปซูล */
+ #bnav{display:flex;position:fixed;z-index:20;left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom,0px));margin:0;padding:6px;gap:2px;overflow:visible;
+  border-radius:99px;background:hsl(var(--h) 60% 6% / .78);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);
+  border:1px solid var(--line);box-shadow:0 10px 40px hsl(var(--h) 90% 30% / .35)}
+ #bnav a{flex:1;min-width:0;padding:11px 2px;text-align:center;font-size:12px;border-radius:99px;color:var(--mu);text-decoration:none;white-space:nowrap;
+  transition:background .3s,color .3s,box-shadow .3s}
+ #bnav a.on{color:#fff;font-weight:600;background:linear-gradient(135deg,hsl(var(--h) 90% 55% / .5),hsl(calc(var(--h) + 45) 90% 55% / .32));box-shadow:0 0 16px var(--glow)}
+
+ /* เนื้อหา */
+ section{min-height:100vh;min-height:100svh;padding:92px 20px 120px}
+ h1{font-size:clamp(30px,9vw,40px)}
+ h2{font-size:clamp(32px,10vw,44px)}
+ .sub{font-size:15px;margin-bottom:24px}
+ section[data-n] .in::before{font-size:96px;top:-34px}
+ .k{font-size:11px}
+
+ #home{padding-top:96px}
+ #home .in{gap:16px}
+ .heroimg{max-width:210px}
+ .marq{margin-top:30px}
+
+ section .btn{display:block;width:100%;text-align:center;padding:15px 20px}
+ section .btn.g{margin:10px 0 0}
+ #partner p .btn{margin-top:0}
+
+ .card{padding:18px}
+ .card img.pic{width:calc(100% + 36px);margin:-18px -18px 14px}
+ #plist{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+ #plist .card{padding:12px}
+ #plist .card img.pic{width:calc(100% + 24px);margin:-12px -12px 10px}
+ #plist .card h3{font-size:15px}
+ .mem{gap:12px}
+ .av-wrap,.av{width:46px;height:46px}
+ .dot{width:12px;height:12px}
+
+ form{padding:18px;border-radius:20px}
+ input,textarea,select{font-size:16px;padding:13px 14px}
+ footer{padding-bottom:calc(110px + env(safe-area-inset-bottom,0px))}
+}
+@media(max-width:360px){
+ #bnav a{font-size:11px}
+ header{padding-left:16px}
+}
