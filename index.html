@@ -1,79 +1,163 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="th" data-theme="dark">
 <head>
 <meta charset="utf-8">
-<meta name="theme-color" content="#05030d">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>A • Discord</title>
+<meta name="theme-color" content="#06030e">
+<meta name="color-scheme" content="dark light">
+<title>Abyss Community</title>
+<script>
+try{document.documentElement.dataset.theme=localStorage.getItem("abyss-theme")||"dark"}catch(e){}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Kanit:wght@600;700;800&family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="favicon.png">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="orb" id="o1"></div><div class="orb" id="o2"></div>
-<canvas id="st"></canvas><div id="cur"></div>
 
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <filter id="rough" x="-5%" y="-10%" width="110%" height="120%">
+    <feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="3" seed="7" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="6"/>
+  </filter>
+  <filter id="glyph" color-interpolation-filters="sRGB" x="0" y="0" width="100%" height="100%">
+    <feColorMatrix type="matrix" values="1.15 0 0 0 .03  0 1.15 0 0 0  0 0 1.15 0 .06  -.38 -1.29 -.13 0 1.8"/>
+  </filter>
+</svg>
+
+<div class="fade" aria-hidden="true"></div>
+<div class="wipe" id="wipe" aria-hidden="true"></div>
 <header id="top">
-  <a class="lg" href="#home">A</a>
-  <nav id="nav"><i id="ind"></i></nav>
-  <a class="btn sm" id="join" href="#" target="_blank" rel="noopener">เข้าดิส</a>
+  <div class="lf">
+    <a class="lg" href="#home" aria-label="Abyss"><span>A</span><b>Abyss</b></a>
+    <button id="tk" class="btn tk" type="button" data-open="แจ้งปัญหา">Ticket</button>
+  </div>
+  <a class="flash" id="flash" href="#news" hidden><i></i><span id="ft"></span></a>
+  <div class="acts">
+    <button id="theme" class="ib" type="button" aria-label="สลับโหมดมืด/สว่าง" title="สลับโหมดมืด/สว่าง"></button>
+    <a class="btn solid" data-join href="#" target="_blank" rel="noopener">เข้าดิส</a>
+  </div>
 </header>
-<aside id="dots"></aside>
-<nav id="bnav" aria-label="เมนู"></nav>
 
-<section id="home" data-h="268">
-  <div class="in rv">
-    <div class="txt">
-      <div class="k">Discord Community</div>
-      <h1><span data-split>ยินดีต้อนรับสู่</span><br><span class="hs" data-split>Abyss Community</span></h1>
-      <p class="sub">ที่นี่คุณ <span id="tw" class="hg"></span><span class="caret">|</span></p>
-      <a class="btn" id="join2" href="#" target="_blank" rel="noopener">เข้าร่วมเซิฟเวอของเรา</a>
-      <a class="btn g" href="#ticket">แจ้งปัญหา</a>
+<main>
+  <section id="home" class="view on">
+    <p class="jp" aria-hidden="true">深淵へようこそ</p>
+    <div class="mark">
+      <div class="logo"><img src="hero.webp" alt="Abyss"></div>
+      <h1>ABYSS<small>Community</small></h1>
     </div>
-    <img class="heroimg" alt="" src="hero.webp">
+    <div class="info">
+      <p class="lead">ยินดีต้อนรับ ที่นี่คุณ <span id="tw"></span><span class="caret">|</span></p>
+      <section id="ticket">
+        <p class="cta"><a class="btn solid" data-join href="#" target="_blank" rel="noopener">เข้าร่วมเซิร์ฟเวอร์</a> <button class="btn" type="button" data-open="แจ้งปัญหา">แจ้งปัญหา</button></p>
+      </section>
+      <p class="cr">© Abyss Community</p>
+    </div>
+  </section>
+
+  <section id="news" class="view"><div class="page">
+    <div class="ph"><h2>ข่าวสาร</h2><p>ประกาศและอัปเดตล่าสุดของเซิร์ฟเวอร์</p></div>
+    <div class="sheet"><div id="newslist"></div></div>
+  </div></section>
+
+  <section id="partner" class="view"><div class="page">
+    <div class="ph"><h2>Partner</h2><p>เซิร์ฟเวอร์ที่ร่วมมือกับเรา</p></div>
+    <div class="sheet">
+      <div id="plist"></div>
+      <p class="more"><button class="btn" type="button" data-open="ขอเป็น Partner">ขอเป็น Partner</button></p>
+    </div>
+  </div></section>
+
+  <section id="team" class="view"><div class="page">
+    <div class="ph"><h2>ทีมงาน</h2><p>ทีมงานที่ดูแลเซิร์ฟเวอร์ พร้อมสถานะออนไลน์</p></div>
+    <div class="sheet"><div id="teamlist"></div></div>
+  </div></section>
+
+  <section id="rules" class="view"><div class="page">
+    <div class="ph"><h2>กฎเซิร์ฟเวอร์</h2><p>อ่านก่อนเข้าร่วม หากพบการกระทำที่ไม่เหมาะสม แจ้งทีมงานได้ตลอดเวลา</p></div>
+    <ol id="ruleslist"></ol>
+  </div></section>
+</main>
+
+<nav id="nav" class="dock" aria-label="เมนู"></nav>
+
+<div hidden><b id="dep"></b></div>
+
+<!-- ฟอร์ม Ticket -->
+<dialog id="tm">
+  <form id="tf" method="dialog">
+    <button class="mx" type="button" aria-label="ปิด">×</button>
+    <h3>ส่งเรื่องถึงทีมงาน</h3>
+    <label>ชื่อ Discord<input name="user" required autofocus></label>
+    <label>หัวข้อ<select name="topic" id="topic"><option>แจ้งปัญหา</option><option>ขอเป็น Partner</option><option>อื่นๆ</option></select></label>
+    <div id="pf" hidden>
+      <label>ชื่อเซิร์ฟเวอร์<input name="server"></label>
+      <label>ลิงก์เชิญดิส<input name="invite" type="url" placeholder="https://discord.gg/..."></label>
+    </div>
+    <label>รายละเอียด<textarea name="desc" rows="5" required></textarea></label>
+    <button class="btn solid" type="submit">ส่ง</button>
+    <p class="msg" role="status"></p>
+  </form>
+</dialog>
+
+<dialog id="okd" aria-label="ส่งเรียบร้อย">
+  <div class="ok">
+    <svg viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="24"/><path d="M15 27l8 8 14-16"/></svg>
+    <h3>ส่งเรียบร้อยแล้ว</h3>
+    <p>ทีมงานได้รับเรื่องของคุณแล้ว</p>
   </div>
-  <div class="marq"><div id="marq"></div></div>
-</section>
+</dialog>
 
-<section id="news" data-h="212" data-n="01">
-  <div class="in rv"><div class="k">01 — Updates</div><h2 data-split>ข่าวสาร</h2><p class="sub">ประกาศและอัปเดตล่าสุดของเซิร์ฟเวอร์</p><div class="grid" id="newslist"></div></div>
-</section>
-
-<section id="partner" data-h="318" data-n="02">
-  <div class="in rv"><div class="k">02 — Partner</div><h2 data-split>Partner</h2><p class="sub">เซิร์ฟเวอร์ที่ร่วมมือกับเรา</p>
-    <div class="grid" id="plist"></div>
-    <p style="margin-top:28px"><a class="btn" href="#ticket" data-pick="ขอเป็น Partner">ขอเป็น Partner</a></p>
-  </div>
-</section>
-
-<section id="team" data-h="162" data-n="03">
-  <div class="in rv"><div class="k">03 — Staff</div><h2 data-split>ทีมงาน</h2><p class="sub">ทีมงานที่ดูแลเซิร์ฟเวอร์</p><div id="teamlist"></div></div>
-</section>
-
-<section id="rules" data-h="38" data-n="04">
-  <div class="in rv"><div class="k">04 — Rules</div><h2 data-split>กฎเซิร์ฟเวอร์</h2><p class="sub">อ่านก่อนเข้าร่วม หากพบปัญหาหรือพบเห็นการกระทำที่ไม่เหมาะสม สามารถแจ้งทีมงานผ่านช่องทางที่กำหนดได้ตลอดเวลา</p><div class="grid wide" id="ruleslist"></div></div>
-</section>
-
-<section id="ticket" data-h="196" data-n="05">
-  <div class="in rv"><div class="k">05 — Support</div><h2 data-split>Ticket</h2>
-    <p class="sub">แจ้งปัญหา ขอความช่วยเหลือ หรือขอเป็น Partner ผ่านฟอร์มเดียว ทีมงานจะติดต่อกลับทางดิส</p>
-    <form id="tf">
-      <div class="row">
-        <label>ชื่อ Discord<input name="user" required></label>
-        <label>หัวข้อ<select name="topic" id="topic"><option>แจ้งปัญหา</option><option>ขอเป็น Partner</option><option>อื่นๆ</option></select></label>
-      </div>
-      <div id="pf" hidden>
-        <label>ชื่อเซิร์ฟเวอร์<input name="server"></label>
-        <label>ลิ้งเชิญดิส<input name="invite" type="url" placeholder="https://discord.gg/..."></label>
-      </div>
-      <label>รายละเอียด<textarea name="desc" required></textarea></label>
-      <button class="btn" type="submit">ส่ง</button>
-      <div class="msg"></div>
-    </form>
-  </div>
-</section>
-
-<footer>© Abyss Community</footer>
 <script src="data.js"></script>
 <script src="script.min.js"></script>
-<script src="anti-save.js"></script>
+<script>
+(()=>{
+  const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+  const root=document.documentElement;
+
+  const views=$$("main>.view"),ids=views.map(v=>v.id);
+  const RM=matchMedia("(prefers-reduced-motion:reduce)").matches;
+  const vt=false;  
+  let cur="home";
+  function apply(id){
+    views.forEach(v=>v.classList.toggle("on",v.id===id));
+    const mark=()=>$$("#nav a").forEach(a=>a.classList.toggle("on",a.dataset.s===id));
+    mark();setTimeout(mark,350);   
+    scrollTo(0,0);
+    $$("#"+id+" :is(.ph,.row,.grp,.mem,li)").forEach((el,i)=>{el.classList.add("stg");el.style.setProperty("--d",Math.min(i,14)*70+"ms")});
+  }
+  const wipe=$("#wipe");
+  function sweep(){wipe.classList.remove("go");void wipe.offsetWidth;wipe.classList.add("go")}
+  function go(id){
+    if(!ids.includes(id))id="home";
+    if(id===cur)return;
+    root.dataset.dir=ids.indexOf(id)>ids.indexOf(cur)?"fwd":"back";
+    cur=id;sweep();
+    vt?document.startViewTransition(()=>apply(id)):apply(id);
+  }
+  addEventListener("hashchange",()=>go(location.hash.slice(1)));
+  {const id=location.hash.slice(1);cur=ids.includes(id)?id:"home";apply(cur)}
+
+  /* ===== ธีม มืด/สว่าง ===== */
+  const meta=$('meta[name="theme-color"]');
+  function paint(){meta.content=root.dataset.theme==="dark"?"#06030e":"#fdfcff"}
+  paint();
+  $("#theme").addEventListener("click",()=>{
+    const t=root.dataset.theme==="dark"?"light":"dark";
+    root.dataset.theme=t;paint();
+    try{localStorage.setItem("abyss-theme",t)}catch(_){}
+  });
+
+  if(typeof NEWS!=="undefined"&&NEWS.length){$("#ft").textContent=NEWS[0].title;$("#flash").hidden=false}
+
+  if(!matchMedia("(prefers-reduced-motion:reduce)").matches)
+    addEventListener("pointermove",e=>{
+      root.style.setProperty("--mx",(e.clientX/innerWidth-.5).toFixed(3));
+      root.style.setProperty("--my",(e.clientY/innerHeight-.5).toFixed(3));
+    },{passive:true});
+})();
+</script>
 </body>
 </html>
